@@ -59,9 +59,9 @@ function Cell:draw(cellWidth, cellHeight)
     -- lg.print(self.generation, self.xPos * cellWidth, self.yPos * cellHeight)
 end
 
-function Cell:mousepressed(x, y)
+function Cell:mousepressed(x, y, cellWidth, cellHeight)
     cellXPos = self.xPos * cellWidth
-    cellYPos = self.yPos * cellWidth
+    cellYPos = self.yPos * cellHeight
 
     if x > cellXPos and x < cellXPos + cellWidth
         and y > cellYPos and y < cellYPos + cellHeight

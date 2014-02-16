@@ -28,7 +28,7 @@ coordinateNeighourhoodOverlay = {
     Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 ]]--
 function analysisNeighbours(cell, grid)
-	local currentCell = table.copy(cell)
+	local currentCell = table.deepCopy(cell)
 	
 	local liveCells = collectLiveNeighbours(cell, grid)
 
@@ -71,7 +71,7 @@ function collectAllNeighbours(cell, grid)
 			and cell.xPos + v[1] < 10 and cell.yPos + v[2] < 10
 			then
 
-			local neighbour = grid[cell.xPos + v[1]][cell.yPos + v[2]]
+			local neighbour = grid.contents[cell.xPos + v[1]][cell.yPos + v[2]]
 			neighbourhood[#neighbourhood + 1] = neighbour
 		end
 	end

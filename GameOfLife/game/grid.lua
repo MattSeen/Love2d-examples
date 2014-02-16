@@ -43,17 +43,15 @@ function Grid:fill(fillObject)
     end    
 end
 
-function Grid:seed()
-    for kCollection,collection in pairs(self.contents) do
-        for kCell,cell in pairs(collection) do
-            local rnd = math.random(0, 1)
-            
-            if rnd == 0 then
-                -- TODO Refactor: the grid should know very little about the object it holds
-                cell:setAlive()
-            end
+function Grid:seed(callback)
+
+    for x=1,self.size do
+        for y=1,self.size do
+            object = self.contents[x][y]
+            callback(object)
         end
     end
+
 end
 
 function Grid:draw()

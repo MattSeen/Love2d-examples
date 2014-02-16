@@ -112,7 +112,16 @@ end
 function seedGrid()
 	print "Preparing to seed grid"
 
-	grid:seed()
+	grid:seed(
+		function(cell)
+	        local rnd = math.random(0, 1)
+	        
+	        if rnd == 0 then
+	            -- TODO Refactor: the grid should know very little about the object it holds
+	            cell:setAlive()
+	        end
+		end
+	)
 
 	print "Seeded son"
 end

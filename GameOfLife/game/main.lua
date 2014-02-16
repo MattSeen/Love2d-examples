@@ -23,27 +23,30 @@ require "timer"
 require "conwaysrules"
 require "constants"
 
+
 function love.load()
 	currentGeneration = 0
-	generationHalfLife = 1
+	generationHalfLife = 1 -- seconds
 
 	timer = Timer:new()
 	timer.resetInterval = generationHalfLife
 	timer.callback = nextGeneration
 
-	grid = Grid:new({}, 0, 0)
-	
+	grid = Grid:new({}, 0, 0)	
 	grid:fill(fillGridCallback)
 end
+
 
 function love.update(dt)
 	timer:tick(dt)
 end
 
+
 function love.draw()
 	grid:draw()
-	drawInfoToScreen()	
+	drawInfoToScreen()
 end
+
 
 function drawInfoToScreen()
 	lg.setColor(unpack(Colors.white))
@@ -54,11 +57,13 @@ function drawInfoToScreen()
 	lg.print("Cursor: " .. lm.getX() .. ", " .. lm.getY(), lg.getWidth() - 200, lg.getHeight() - 30)
 end
 
+
 function love.mousepressed(x, y, button)
 	if not timer.active then
 		grid:mousepressed(x,y)
 	end
 end
+
 
 function love.keypressed(key)
 	if key == "escape" then
@@ -79,6 +84,11 @@ function love.keypressed(key)
 end
 
 
+--[[ 
+-- 	NOTE: Whatever happens in the next generation can never affect
+-- 	the past. When we are analysing the layout for the next generation
+-- 	we are creating a new grid of cells based on the old layout. 
+]]--
 function nextGeneration()
 	print "Welcome to the next generation"
 	currentGeneration = currentGeneration + 1

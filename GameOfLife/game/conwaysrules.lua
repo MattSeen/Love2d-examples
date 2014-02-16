@@ -34,14 +34,17 @@ function analysisNeighbours(cell, grid)
 
 	if currentCell:isAlive() then
 		if #liveCells == 2 or #liveCells == 3 then
-			currentCell:setAlive()
+			-- currentCell:setAlive()
+			currentCell:theBloodLineContinues()
 		else
 			currentCell:setDead()
+			currentCell:bloodLineHasEnded()
 		end
 	else
 		if #liveCells == 3 then
 			currentCell:setAlive()
 		else
+			-- continue to be dead son.
 			currentCell:setDead()
 		end
 	end

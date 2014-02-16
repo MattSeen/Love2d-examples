@@ -35,7 +35,7 @@ function love.load()
 	timer.resetInterval = generationHalfLife
 	timer.callback = nextGeneration
 
-	grid = Grid:new({}, 0, 0)	
+	grid = Grid:new({}, 0, 0, drawCellCallback)
 	grid:fill(fillGridCallback)
 end
 
@@ -48,6 +48,11 @@ end
 function love.draw()
 	grid:draw()
 	drawInfoToScreen()
+end
+
+
+function drawCellCallback(cell, width, height)
+    cell:draw(width, height)
 end
 
 
@@ -100,7 +105,7 @@ function nextGeneration()
 	print "Welcome to the next generation"
 	currentGeneration = currentGeneration + 1
 
-	local newGrid = Grid:new({}, 0, 0)
+	local newGrid = Grid:new({}, 0, 0, drawCellCallback)
 	for k,v in pairs(newGrid.contents) do
 		print("before I fill new grid", k,v)
 	end

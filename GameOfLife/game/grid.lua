@@ -2,7 +2,7 @@ require "constants"
 
 Grid = {}
 
-function Grid:new (o, xOffset, yOffset)
+function Grid:new (o, xOffset, yOffset, cellDrawCallback)
     o = o or {}   -- create object if user does not provide one
     setmetatable(o, self)
     self.__index = self
@@ -17,6 +17,8 @@ function Grid:new (o, xOffset, yOffset)
     o.xPos = 0
     o.yPos = 0
     o.contents = {}
+    assert(cellDrawCallback, 'Callback required, don\'t know how to draw objects in my grid')
+    o.cellDrawCallback = cellDrawCallback
 
     return o
 end
@@ -56,9 +58,9 @@ function Grid:seed(callback)
 end
 
 function Grid:draw()
-    for iCollection, collection in pairs(self.contents) do
-        for iCell, cell in pairs(collection) do
-            cell:draw(self.cellWidth, self.cellHeight)
+    for x, row in pairs(self.contents) do
+        for y, cell in pairs(row) do
+            self.cellDrawCallback(cell, self.cellWidth, self.cellHeight)
         end
     end
 end

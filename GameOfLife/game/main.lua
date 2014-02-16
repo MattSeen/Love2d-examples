@@ -3,14 +3,17 @@
 	Game Author: Matthew Cunningham
 	Reference: http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
 	
-	----
+	-----------------------------
 	Controls:
+		Keyboard:
 			 Quit the game	: esc
 					 Pause 	: p
 				 ResetGrid 	: r
    		Randomly seed grid 	: s
-
-   		When paused use the mouse to create or kill cells.
+		
+		Mouse:
+   			When paused use the mouse to create or kill cells on the grid
+	-----------------------------
 
 	Interesting ideas:
 	https://love2d.org/wiki/Tutorial:Gridlocked_Player
@@ -88,6 +91,10 @@ end
 -- 	NOTE: Whatever happens in the next generation can never affect
 -- 	the past. When we are analysing the layout for the next generation
 -- 	we are creating a new grid of cells based on the old layout. 
+--	and then swap out the old grid in one go at the end.
+--
+--	I spent wasted a lot of time trying to figure out what I was doing
+-- 	wrong when I figure out I didn't adhere to that requirement.
 ]]--
 function nextGeneration()
 	print "Welcome to the next generation"

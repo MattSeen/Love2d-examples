@@ -29,17 +29,18 @@ function Grid:addToGrid(x, y, object)
 end
 
 function Grid:replaceWith(altGrid)
-    self.contents = altGrid.contents    
+    self.contents = altGrid.contents
 end
 
-function Grid:fill(fillObject)
-    for i=1,self.size do
+function Grid:fill(callback)
+    for x=1,self.size do
         local row = {}
-        for j=1,self.size do
-            -- TODO Refactor: Grid shouldn't know anything about the interface of the fill object...
-            row[j] = fillObject:new({}, i, j)
+
+        for y=1,self.size do
+            row[y] = callback(x, y)
         end
-        self.contents[i] = row
+
+        self.contents[x] = row
     end    
 end
 

@@ -32,7 +32,8 @@ function love.load()
 	timer.callback = nextGeneration
 
 	grid = Grid:new({}, 0, 0)
-	grid:fill(Cell)
+	
+	grid:fill(fillGridCallback)
 end
 
 function love.update(dt)
@@ -112,22 +113,24 @@ end
 function seedGrid()
 	print "Preparing to seed grid"
 
-	grid:seed(
-		function(cell)
-	        local rnd = math.random(0, 1)
-	        
-	        if rnd == 0 then
-	            -- TODO Refactor: the grid should know very little about the object it holds
-	            cell:setAlive()
-	        end
-		end
-	)
+	grid:seed(seedGridCallback)
 
 	print "Seeded son"
 end
 
+function seedGridCallback(cell)
+    local rnd = math.random(0, 1)
+    if rnd == 0 then
+        cell:setAlive()
+    end
+end
+
 function clearGrid()
 	print "about to clear the grid"
-
-	grid:fill(Cell)
+	grid:fill(fillGridCallback)
 end
+
+function fillGridCallback(x, y)
+	return Cell:new({}, x, y)
+end
+

@@ -51,8 +51,8 @@ function love.draw()
 end
 
 
-function drawCellCallback(cell, width, height)
-    cell:draw(width, height)
+function drawCellCallback(cell)
+    cell:draw()
 end
 
 
@@ -152,7 +152,7 @@ function clearGrid()
 	grid:fill(fillGridCallback)
 end
 
-function fillGridCallback(x, y)
-	return Cell:new({}, x, y)
+function fillGridCallback(x, y, width, height)
+	return Cell:new({}, x, y, width, height)
 end
 

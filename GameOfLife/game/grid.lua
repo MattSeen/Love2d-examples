@@ -39,7 +39,7 @@ function Grid:fill(callback)
         local row = {}
 
         for y=1,self.size do
-            row[y] = callback(x, y)
+            row[y] = callback(x, y, self.cellWidth, self.cellHeight)
         end
 
         self.contents[x] = row
@@ -60,7 +60,7 @@ end
 function Grid:draw()
     for x, row in pairs(self.contents) do
         for y, cell in pairs(row) do
-            self.cellDrawCallback(cell, self.cellWidth, self.cellHeight)
+            self.cellDrawCallback(cell)
         end
     end
 end

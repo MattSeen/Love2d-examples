@@ -22,7 +22,6 @@ require "grid"
 require "timer"
 require "conwaysrules"
 require "constants"
-pp = require "lua-pretty-print.PrettyPrint"
 
 local lg = love.graphics
 local lm = love.mouse
@@ -86,8 +85,6 @@ function nextGeneration()
 	print "Welcome to the next generation"
 	currentGeneration = currentGeneration + 1
 
-	-- print("Before", pp(grid.contents))
-
 	local newGrid = Grid:new({}, 0, 0)
 	for k,v in pairs(newGrid.contents) do
 		print("before I fill new grid", k,v)
@@ -99,9 +96,6 @@ function nextGeneration()
 			newGrid:addToGrid(x, y, newCell)
 		end
 	end
-	
-	-- print("NewGrid", pp(newGrid))
-	-- print("newGrid contains", #newGrid.contents, "elements")
 
 	grid:replaceWith(newGrid)
 end
@@ -121,16 +115,6 @@ end
 function seedGrid()
 	print "Preparing to seed grid"
 
-	-- for kCollection,collection in pairs(grid.contents) do
-	-- 	for kCell,cell in pairs(collection) do
-	-- 		local rnd = math.random(0, 1)
-			
-	-- 		if rnd == 0 then
-	-- 			cell:setAlive()
-	-- 		end
-	-- 	end
-	-- end
-
 	grid:seed()
 
 	print "Seeded son"
@@ -138,12 +122,6 @@ end
 
 function clearGrid()
 	print "about to clear the grid"
-
-	-- for kCollection,collection in pairs(grid.contents) do
-	-- 	for kCell,cell in pairs(collection) do
-	-- 		cell:setDead()
-	-- 	end
-	-- end
 
 	grid:fill(Cell)
 end

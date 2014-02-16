@@ -23,9 +23,6 @@ require "timer"
 require "conwaysrules"
 require "constants"
 
-local lg = love.graphics
-local lm = love.mouse
-
 function love.load()
 	currentGeneration = 0
 	generationHalfLife = 1

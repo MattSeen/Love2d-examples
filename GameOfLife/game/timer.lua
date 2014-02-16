@@ -24,5 +24,4 @@ end
 
 -- Override this function to allow for your own customizable behaviour on a Timer tick.
 function Timer:callback()
-  print "Hello world"
 end

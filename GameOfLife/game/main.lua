@@ -35,7 +35,7 @@ function love.load()
 	timer.resetInterval = generationHalfLife
 	timer.callback = nextGeneration
 
-	grid = Grid:new({}, Cell, 0, 0)
+	grid = Grid:new({}, 0, 0)
 	grid:fill(Cell)
 end
 

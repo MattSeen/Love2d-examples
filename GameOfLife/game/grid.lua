@@ -2,7 +2,7 @@ require "constants"
 
 Grid = {}
 
-function Grid:new (o, xOffset, yOffeset)
+function Grid:new (o, xOffset, yOffset)
     o = o or {}   -- create object if user does not provide one
     setmetatable(o, self)
     self.__index = self
@@ -44,7 +44,6 @@ function Grid:fill(fillObject)
 end
 
 function Grid:seed()
-    
     for kCollection,collection in pairs(self.contents) do
         for kCell,cell in pairs(collection) do
             local rnd = math.random(0, 1)
@@ -55,7 +54,6 @@ function Grid:seed()
             end
         end
     end
-
 end
 
 function Grid:draw()
@@ -67,25 +65,29 @@ function Grid:draw()
 end
 
 function Grid:mousepressed(x, y)
+    local cellX, cellY = self:mouseCoordsToGridCoords(x, y)
+    local cell = self.contents[cellX][cellY]
 
-    -- local cellX, cellY = Grid:mouseCoordsToGridCoords(x, y)
-    -- grid.contents[cellX][cellY]:mousepressed()
-
-    for kCollection,collection in pairs(self.contents) do
-        for kCell,cell in pairs(collection) do
-            cell:mousepressed(x, y, self.cellWidth, self.cellHeight)
-            -- cell:mousepressed(cellX, cellY, self.cellWidth, self.cellHeight)
-        end
-    end
+    cell:mousepressed(self.cellWidth, self.cellHeight)
 end
 
 
---[[
-    How do I do this?
-]]--
-function Grid:mouseCoordsToGridCoords(x, y)
-    -- ansx = x - xOffset
-    -- ansy = y - yOffset
+function Grid:mouseCoordsToGridCoords(mouseX, mouseY)
+    xPosOnGrid = math.floor( ((mouseX + self.xOffset) / self.cellWidth) )
+    yPosOnGrid = math.floor( ((mouseY + self.yOffset) / self.cellHeight) )
 
-    -- 
+ 
+    if xPosOnGrid > self.size then
+        xPosOnGrid = self.size        
+    elseif xPosOnGrid < 1 then
+        xPosOnGrid = 1
+    end
+
+    if yPosOnGrid > self.size then
+        yPosOnGrid = self.size
+    elseif yPosOnGrid < 1 then
+        yPosOnGrid = 1
+    end
+
+    return xPosOnGrid, yPosOnGrid
 end

@@ -59,19 +59,13 @@ function Cell:draw(cellWidth, cellHeight)
     -- lg.print(self.generation, self.xPos * cellWidth, self.yPos * cellHeight)
 end
 
-function Cell:mousepressed(x, y, cellWidth, cellHeight)
-    cellXPos = self.xPos * cellWidth
-    cellYPos = self.yPos * cellHeight
+function Cell:mousepressed(cellWidth, cellHeight)
+    print "I've been clicked on me!"
 
-    if x > cellXPos and x < cellXPos + cellWidth
-        and y > cellYPos and y < cellYPos + cellHeight
-    then
-        print "clicked on me!"
-        if self:isAlive() then
-            self:setDead() 
-        else 
-            self:setAlive() 
-        end
+    if self:isAlive() then
+        self:setDead() 
+    else 
+        self:setAlive() 
     end
 end
 

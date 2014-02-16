@@ -11,9 +11,9 @@ function Grid:new (o, xOffset, yOffset)
     o.yOffset = yOffset or 0
 
     o.lines = Colors.green
-    o.cellWidth = 50
-    o.cellHeight = 50
-    o.size = 10
+    o.cellWidth = 40
+    o.cellHeight = 40
+    o.size = 13
     o.xPos = 0
     o.yPos = 0
     o.contents = {}

@@ -1,4 +1,4 @@
---[[
+helptext = [[
 	Game Name: Convey's the Game of life
 	Game Author: Matthew Cunningham
 	Reference: http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
@@ -14,22 +14,27 @@
 		Mouse:
    			When paused use the mouse to create or kill cells on the grid
 	-----------------------------
+]]
 
+--[[
 	Interesting ideas:
 	https://love2d.org/wiki/Tutorial:Gridlocked_Player
 	http://www.gamedev.net/page/resources/_/technical/game-programming/coordinates-in-hexagon-based-tile-maps-r1800
---]]
+]]--
 
 require "cell"
 require "grid"
 require "timer"
 require "conwaysrules"
 require "constants"
+tween = require "tween.tween"
 
 
 function love.load()
 	currentGeneration = 0
 	generationHalfLife = 1 -- seconds
+
+	drawHelp = false
 
 	timer = Timer:new()
 	timer.resetInterval = generationHalfLife
@@ -41,7 +46,10 @@ end
 
 
 function love.update(dt)
+	tween.update(dt) -- note the use of the single dot rather than semicolon.
+	
 	timer:tick(dt)
+	grid:update(dt)
 end
 
 
@@ -63,6 +71,10 @@ function drawInfoToScreen()
 	lg.print("Timer active: " .. tostring(timer.active), 10, 24)
 	
 	lg.print("Cursor: " .. lm.getX() .. ", " .. lm.getY(), lg.getWidth() - 200, lg.getHeight() - 30)
+
+	if drawHelp then
+		
+	end
 end
 
 
@@ -88,6 +100,10 @@ function love.keypressed(key)
 
 	if key == "r" then
 		clearGrid()
+	end
+
+	if key == "h" then
+		drawHelp = not drawHelp
 	end
 end
 

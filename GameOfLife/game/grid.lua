@@ -57,6 +57,14 @@ function Grid:seed(callback)
 
 end
 
+function Grid:update(dt)
+    for x, row in pairs(self.contents) do
+        for y, cell in pairs(row) do
+            cell:update(dt)
+        end
+    end
+end
+
 function Grid:draw()
     for x, row in pairs(self.contents) do
         for y, cell in pairs(row) do

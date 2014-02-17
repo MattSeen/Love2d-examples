@@ -1,4 +1,5 @@
 require "constants"
+require "utils"
 
 Cell = {}
 
@@ -9,7 +10,7 @@ function Cell:new (o, xPos, yPos, width, height)
 
     o.alive = false
     o.generation = 0
-    o.color = Colors.black
+    o.color = table.deepCopy(Colors.black)
     o.xPos = xPos
     o.yPos = yPos
     o.width = width
@@ -26,15 +27,19 @@ end
 function Cell:setAlive()
     if not self.alive then 
         self.generation = 1 -- The beginning of a new bloodline
+        tween(0.35, self.color, Colors.white, tween.easing.linear)
     end
 
     self.alive = true
-    self.color = Colors.white 
 end
 
 function Cell:setDead()
+    if self.alive then
+        local black = table.deepCopy(Colors.black)
+        tween(0.35, self.color, black, tween.easing.linear)
+    end
+
     self.alive = false
-    self.color = Colors.black
 end
 
 function Cell:getGenerationsLived()
@@ -48,6 +53,12 @@ end
 function Cell:bloodLineHasEnded()
     self.generation = 0
     self.numTimesKilled = self.numTimesKilled + 1
+end
+
+function Cell:update(dt)
+    if self.generation == 1 then
+
+    end
 end
 
 function Cell:draw()
@@ -67,7 +78,7 @@ function Cell:mousepressed()
     if self:isAlive() then
         self:setDead() 
     else 
-        self:setAlive() 
+        self:setAlive()
     end
 end
 

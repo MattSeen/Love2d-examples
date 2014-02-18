@@ -31,3 +31,24 @@ function table.deepCopy(t)
 	setmetatable(target, meta)
 	return target
 end
+
+function longestLineWidth(text)
+    local longest = 0
+    for i,v in ipairs(lines(helptext)) do
+        local lineLength = font:getWidth(v)
+        if lineLength > longest then
+            longest = lineLength
+        end
+    end
+
+    return longest
+end
+
+-- Source: http://www.twolivesleft.com/Codea/Talk/discussion/2118/split-a-string-by-return-newline/p1
+-- Lua doesn't provide any convenient methods for splitting strings like most languages.
+function lines(str)
+  local t = {}
+  local function helper(line) table.insert(t, line) return "" end
+  helper((str:gsub("(.-)\r?\n", helper)))
+  return t
+end

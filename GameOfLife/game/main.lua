@@ -1,27 +1,28 @@
-helptext = [[
-	Game Name: Convey's the Game of life
-	Game Author: Matthew Cunningham
-	Reference: http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
-	
-	-----------------------------
-	Controls:
-		Keyboard:
-			 Quit the game	: esc
-					 Pause 	: p
-				 ResetGrid 	: r
-   		Randomly seed grid 	: s
-		
-		Mouse:
-   			When paused use the mouse to create or kill cells on the grid
-	-----------------------------
-]]
+helptext = 
+[[Game Name: Convey's the Game of life
+Game Author: Matthew Cunningham
+Reference: http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
+
+-----------------------------
+Controls:
+    Keyboard:
+        Quit the game: esc
+        Pause: p
+        ResetGrid: r
+        Randomly seed grid: s
+        help: h
+    
+    Mouse:
+        When paused use the mouse to create or kill cells on the grid
+-----------------------------]]
 
 --[[
-	Interesting ideas:
-	https://love2d.org/wiki/Tutorial:Gridlocked_Player
-	http://www.gamedev.net/page/resources/_/technical/game-programming/coordinates-in-hexagon-based-tile-maps-r1800
+    Interesting ideas:
+    https://love2d.org/wiki/Tutorial:Gridlocked_Player
+    http://www.gamedev.net/page/resources/_/technical/game-programming/coordinates-in-hexagon-based-tile-maps-r1800
 ]]--
 
+require "helppage"
 require "cell"
 require "grid"
 require "timer"
@@ -31,31 +32,37 @@ tween = require "tween.tween"
 
 
 function love.load()
-	currentGeneration = 0
-	generationHalfLife = 1 -- seconds
+    currentGeneration = 0
+    generationHalfLife = 1 -- seconds
 
-	drawHelp = false
+    fontSize = 16
+    font = lg.newFont("resources/jackinput.TTF", fontSize)
+    lg.setFont(font)
 
-	timer = Timer:new()
-	timer.resetInterval = generationHalfLife
-	timer.callback = nextGeneration
+    Help:setup()
 
-	grid = Grid:new({}, 0, 0, drawCellCallback)
-	grid:fill(fillGridCallback)
+    timer = Timer:new()
+    timer.resetInterval = generationHalfLife
+    timer.callback = nextGeneration
+
+    grid = Grid:new({}, 0, 0, drawCellCallback)
+    grid:fill(fillGridCallback)
 end
 
 
 function love.update(dt)
-	tween.update(dt) -- note the use of the single dot rather than semicolon.
-	
-	timer:tick(dt)
-	grid:update(dt)
+    tween.update(dt) -- note the use of the single dot rather than semicolon.
+    timer:tick(dt)
+    grid:update(dt)
 end
 
-
 function love.draw()
-	grid:draw()
-	drawInfoToScreen()
+    if Help:activated() then
+        Help:draw()
+    else
+        grid:draw()
+        drawInfoToScreen()
+    end
 end
 
 
@@ -65,75 +72,71 @@ end
 
 
 function drawInfoToScreen()
-	lg.setColor(unpack(Colors.white))
-	lg.print("Current Generation: " .. currentGeneration, 10, 10)
-	lg.print("Timer active: " .. tostring(timer.active), 10, 24)
-	lg.print("Timer active: " .. tostring(timer.active), 10, 24)
-	
-	lg.print("Cursor: " .. lm.getX() .. ", " .. lm.getY(), lg.getWidth() - 200, lg.getHeight() - 30)
-
-	if drawHelp then
-		
-	end
+    lg.setColor(unpack(Colors.white))
+    lg.print("Current Generation: " .. currentGeneration, 10, 10)
+    lg.print("Timer active: " .. tostring(timer.active), 10, 24)
+    lg.print("Timer active: " .. tostring(timer.active), 10, 24)
+    
+    lg.print("Cursor: " .. lm.getX() .. ", " .. lm.getY(), lg.getWidth() - 200, lg.getHeight() - 30)
 end
 
 
 function love.mousepressed(x, y, button)
-	if not timer.active then
-		grid:mousepressed(x,y)
-	end
+    if not timer.active then
+        grid:mousepressed(x,y)
+    end
 end
 
 
 function love.keypressed(key)
-	if key == "escape" then
-		love.event.push("quit")
-	end
+    if key == "escape" then
+        love.event.push("quit")
+    end
 
-	if key == "p" then
-		timer.active = not timer.active
-	end
+    if key == "p" then
+        timer.active = not timer.active
+    end
 
-	if key == "s" then
-		seedGrid()
-	end
+    if key == "s" then
+        seedGrid()
+    end
 
-	if key == "r" then
-		clearGrid()
-	end
+    if key == "r" then
+        clearGrid()
+    end
 
-	if key == "h" then
-		drawHelp = not drawHelp
-	end
+    if key == "h" then
+        Help:keypressed(key)
+    end
 end
 
 
 --[[ 
--- 	NOTE: Whatever happens in the next generation can never affect
--- 	the past. When we are analysing the layout for the next generation
--- 	we are creating a new grid of cells based on the old layout. 
---	and then swap out the old grid in one go at the end.
+--  NOTE: Whatever happens in the next generation can never affect
+--  the past. When we are analysing the layout for the next generation
+--  we are creating a new grid of cells based on the old layout. 
+--  and then swap out the old grid in one go at the end.
 --
---	I spent wasted a lot of time trying to figure out what I was doing
--- 	wrong when I figure out I didn't adhere to that requirement.
+--  I spent wasted a lot of time trying to figure out what I was doing
+--  wrong when I figure out I didn't adhere to that requirement.
 ]]--
 function nextGeneration()
-	print "Welcome to the next generation"
-	currentGeneration = currentGeneration + 1
+    print "Welcome to the next generation"
+    currentGeneration = currentGeneration + 1
 
-	local newGrid = Grid:new({}, 0, 0, drawCellCallback)
-	for k,v in pairs(newGrid.contents) do
-		print("before I fill new grid", k,v)
-	end
+    local newGrid = Grid:new({}, 0, 0, drawCellCallback)
+    for k,v in pairs(newGrid.contents) do
+        print("before I fill new grid", k,v)
+    end
 
-	for x, cellCollection in pairs(grid.contents) do
-		for y, cell in pairs(cellCollection) do
-			local newCell = analysisNeighbours(cell, grid)
-			newGrid:addToGrid(x, y, newCell)
-		end
-	end
+    for x, cellCollection in pairs(grid.contents) do
+        for y, cell in pairs(cellCollection) do
+            local newCell = analysisNeighbours(cell, grid)
+            newGrid:addToGrid(x, y, newCell)
+        end
+    end
 
-	grid:replaceWith(newGrid)
+    grid:replaceWith(newGrid)
 end
 
 
@@ -149,11 +152,11 @@ end
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 function seedGrid()
-	print "Preparing to seed grid"
+    print "Preparing to seed grid"
 
-	grid:seed(seedGridCallback)
+    grid:seed(seedGridCallback)
 
-	print "Seeded son"
+    print "Seeded son"
 end
 
 function seedGridCallback(cell)
@@ -164,11 +167,11 @@ function seedGridCallback(cell)
 end
 
 function clearGrid()
-	print "about to clear the grid"
-	grid:fill(fillGridCallback)
+    print "about to clear the grid"
+    grid:fill(fillGridCallback)
 end
 
 function fillGridCallback(x, y, width, height)
-	return Cell:new({}, x, y, width, height)
+    return Cell:new({}, x, y, width, height)
 end
 

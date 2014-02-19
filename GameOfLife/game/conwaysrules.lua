@@ -71,9 +71,10 @@ function collectAllNeighbours(cell, grid)
 
 	for k,v in pairs(coordinateNeighourhoodOverlay) do
 		if cell.xPos + v[1] > 0 and cell.yPos + v[2] > 0 
-			and cell.xPos + v[1] < 10 and cell.yPos + v[2] < 10
+			and cell.xPos + v[1] < grid.size and cell.yPos + v[2] < grid.size
 			then
-
+			
+			-- print("Cell x", cell.xPos + v[1], "Cell y", cell.yPos + v[2])
 			local neighbour = grid.contents[cell.xPos + v[1]][cell.yPos + v[2]]
 			neighbourhood[#neighbourhood + 1] = neighbour
 		end

@@ -1,6 +1,14 @@
 lg = love.graphics
 lm = love.mouse
 
+
+Characters = {
+	dead = "resources/dead.png",
+	alive = "resources/smiler.png",
+	unhappy = "resources/unhappy.png"
+}
+
+
 Colors = {
 	white = {
 		220,

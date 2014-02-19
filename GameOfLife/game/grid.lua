@@ -11,9 +11,9 @@ function Grid:new (o, xOffset, yOffset, cellDrawCallback)
     o.yOffset = yOffset or 0
 
     o.lines = Colors.green
-    o.cellWidth = 40
-    o.cellHeight = 40
-    o.size = 13
+    o.cellWidth = 64
+    o.cellHeight = 64
+    o.size = 8
     o.xPos = 0
     o.yPos = 0
     o.contents = {}
@@ -68,6 +68,10 @@ end
 function Grid:draw()
     for x, row in pairs(self.contents) do
         for y, cell in pairs(row) do
+            lg.setColor(unpack(Colors.green))
+            lg.rectangle("line", x * self.cellWidth, y * self.cellHeight, self.cellWidth, self.cellHeight)
+            -- lg.setColor(unpack(Colors.green))
+
             self.cellDrawCallback(cell)
         end
     end

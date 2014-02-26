@@ -1,9 +1,9 @@
 Who Am I?
 =========
 
-In the not too distant past I made a desicion that I wanted to learn how to make a video game. I grew up being fasinated by them and made a commitment that I wanted to be a software programmer in Japan. The main reason for that was I knew Square Enix (I loved Final Fantasy on the PS1) were based in Japan and knew that's where I wanted to be. Fast forward many years and I never got the whole programming when I was young off the ground. Coming from the country side, going to school in a small town and not having any other friends who were into this stuff in the same way I never pursued it.
+In the not too distant past I made a desicion that I wanted to learn how to make a video game. I grew up being fasinated by them and made a commitment that I wanted to be a software programmer in Japan. The main reason for that was I knew Square Enix (I loved Final Fantasy on the PS1) were based in Japan and knew that's where I wanted to be. Fast forward many years and I never got the whole programming when I was young off the ground. Coming from the country side, going to school in a small town and not having any other friends who were into this stuff in the same way, I never pursued it.
 
-I went on to study engineering and find myself as a full time programmer. I've messed around with that young ambisen over the years but didn't really get anywhere with it. Until recently.
+I went on to study engineering and find myself as a full time programmer. I've messed around with that young ambition over the years but didn't really get anywhere with it. Until recently.
 
 What is this?
 =============
